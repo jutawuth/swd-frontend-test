@@ -3,8 +3,11 @@ import localFont from 'next/font/local';
 
 import AntdRegistry from '@/lib/AntdRegistry';
 
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+
 import '@/styles/globals.scss';
 import 'antd/dist/reset.css';
+import styles from './page.module.scss';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -30,7 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <div className={styles.page}>
+            <div className={styles.header}>
+              <LanguageSwitcher />
+            </div>
+
+            <main className={styles.main}>{children}</main>
+          </div>
+        </AntdRegistry>
       </body>
     </html>
   );
