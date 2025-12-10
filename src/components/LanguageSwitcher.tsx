@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Select } from "antd";
 
@@ -13,6 +14,7 @@ type Props = {
 
 const LanguageSwitcher = ({ className }: Props) => {
   const { t, i18n } = useTranslation("common");
+  const router = useRouter();
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
@@ -20,7 +22,9 @@ const LanguageSwitcher = ({ className }: Props) => {
 
   const handleChange = (locale: "en" | "th") => {
     if (locale !== i18n.language) {
+      document.cookie = `i18next=${locale}; path=/`;
       i18n.changeLanguage(locale);
+      router.refresh();
     }
   };
 

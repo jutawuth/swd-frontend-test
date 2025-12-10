@@ -1,43 +1,33 @@
-'use client';
-
-import { Card, Flex } from 'antd';
-import { useTranslation } from 'react-i18next';
+import { Card } from 'antd';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-
-import '@/lib/i18n';
-import { useRouter } from 'next/navigation';
-import { Menu } from './home.type';
+import getDict from '@/lib/getDict';
+import type { Menu } from './home.type';
 import styles from './page.module.scss';
 
-export default function Home() {
-  const router = useRouter();
-
-  const { t } = useTranslation(['home', 'common']);
-  const menus = t('menus', { returnObjects: true }) as Menu[];
-
-  function handleCardClick(path: string) {
-    router.push(`/${path}`);
-  }
+export default async function Home() {
+  const locale = cookies().get('i18next')?.value;
+  const { menus } = getDict(locale);
 
   return (
     <div className={styles.page}>
-      <Flex className={styles.header} vertical align="flex-end" justify="end">
-        <LanguageSwitcher className={styles.languageSwitch} />
-      </Flex>
+      {/* <Flex className={styles.header} vertical align="flex-end" justify="end">
+        <LanguageSwitcher />
+      </Flex> */}
+      <div className={styles.header}>
+        <LanguageSwitcher />
+      </div>
 
       <main className={styles.main}>
         <div className={styles.menus}>
-          {menus.map((menu) => (
-            <Card
-              key={menu.key}
-              title={t(`${menu.title}`)}
-              variant="borderless"
-              className={styles.card}
-              onClick={() => handleCardClick(menu.key)}
-            >
-              {t(`${menu.description}`)}
-            </Card>
+          {menus.map((menu: Menu) => (
+            <Link key={menu.key} href={`/${menu.key}`} className={styles.cardLink}>
+              <Card title={menu.title} variant="borderless" className={styles.card}>
+                {menu.description}
+              </Card>
+            </Link>
           ))}
         </div>
       </main>
