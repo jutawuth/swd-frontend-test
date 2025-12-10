@@ -1,0 +1,39 @@
+.page {
+  display: flex;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  gap: 64px;
+  font-family: var(--font-geist-sans);
+  align-items: center;
+  justify-content: center;
+}
+
+.languageSwitcher {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: inline-flex;
+}
+
+.menus {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  .cardLink {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card {
+    width: 100%;
+    min-width: 240px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
