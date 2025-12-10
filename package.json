@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "antd": "^5.20.6",
-    "i18next": "^23.15.1",
+    "antd": "^5.29.1",
+    "i18next": "^25.7.2",
     "next": "14.2.12",
+    "next-i18next": "^15.4.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-i18next": "^16.4.0",
     "redux-toolkit": "^1.1.2"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.12",
+    "sass": "^1.95.1",
     "typescript": "^5"
   }
 }
