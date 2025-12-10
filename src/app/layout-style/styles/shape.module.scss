@@ -1,0 +1,80 @@
+@use '../../styles/variables.module.scss' as variables;
+
+.shapeButton {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.triangleLeft {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-right: 100px solid variables.$shape;
+}
+
+.triangleRight {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-left: 100px solid variables.$shape;
+}
+
+.triangleUp {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid variables.$shape;
+}
+
+.triangleDown {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid variables.$shape;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background: variables.$shape;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background: variables.$shape;
+  border-radius: 50%;
+}
+
+.oval {
+  width: 200px;
+  height: 100px;
+  background: variables.$shape;
+  border-radius: 100px / 50px;
+}
+
+.trapezoid {
+  border-bottom: 100px solid variables.$shape;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  height: 0;
+  width: 160px;
+}
+
+.rectangle {
+  width: 200px;
+  height: 100px;
+  background: variables.$shape;
+}
+
+.parallelogram {
+  width: 150px;
+  height: 100px;
+  transform: skew(20deg);
+  background: variables.$shape;
+}

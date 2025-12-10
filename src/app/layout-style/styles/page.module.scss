@@ -1,0 +1,35 @@
+@use '../../styles/variables.module.scss' as variables;
+
+.page {
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.container {
+  width: 992px;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: variables.$primaryColor;
+  }
+
+  .badge {
+    position: absolute;
+    border: none !important;
+    border-radius: 1rem;
+    background-color: variables.$badge;
+    color: white;
+    padding: 4px 16px;
+    bottom: -6px;
+  }
+}

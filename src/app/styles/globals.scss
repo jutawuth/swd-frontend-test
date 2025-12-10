@@ -1,0 +1,9 @@
+@use './variables.module.scss' as variables;
+
+body {
+  background: linear-gradient(225deg, variables.$primaryColor, variables.$secondaryColor);
+}
+
+.ant-card-hoverable {
+  cursor: pointer;
+}

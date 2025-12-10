@@ -1,0 +1,13 @@
+$primaryColor: #ffa200;
+$secondaryColor: #6eda78;
+
+$shape: #999999;
+$badge: #6eda78;
+
+:export {
+  bgStart: $primaryColor;
+  bgEnd: $secondaryColor;
+
+  shape: $shape;
+  badge: $badge;
+}

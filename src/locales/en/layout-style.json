@@ -1,0 +1,7 @@
+{
+  "title": "Layout & Style",
+  "actions": {
+    "slide": "Move shape",
+    "shuffle": "Move position"
+  }
+}
