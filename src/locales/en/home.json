@@ -1,0 +1,19 @@
+{
+  "menus": [
+    {
+      "key": "layout-style",
+      "title": "Test 1",
+      "description": "Layout & Style"
+    },
+    {
+      "key": "connect-api",
+      "title": "Test 2",
+      "description": "Connect API"
+    },
+    {
+      "key": "form-table",
+      "title": "Test 3",
+      "description": "Form & Table"
+    }
+  ]
+}

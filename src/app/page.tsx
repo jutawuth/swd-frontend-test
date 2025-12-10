@@ -1,98 +1,46 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import variables from './variables.module.scss';
+'use client';
 
+import { Card, Flex } from 'antd';
+import { useTranslation } from 'react-i18next';
+
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+
+import '@/lib/i18n';
+import { useRouter } from 'next/navigation';
+import { Menu } from './home.type';
+import styles from './page.module.scss';
 
 export default function Home() {
+  const router = useRouter();
+
+  const { t } = useTranslation(['home', 'common']);
+  const menus = t('menus', { returnObjects: true }) as Menu[];
+
+  function handleCardClick(path: string) {
+    router.push(`/${path}`);
+  }
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <h1 style={{ color: variables.primaryColor }}>Hello, Next.js!</h1>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <Flex className={styles.header} vertical align="flex-end" justify="end">
+        <LanguageSwitcher className={styles.languageSwitch} />
+      </Flex>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      <main className={styles.main}>
+        <div className={styles.menus}>
+          {menus.map((menu) => (
+            <Card
+              key={menu.key}
+              title={t(`${menu.title}`)}
+              variant="borderless"
+              className={styles.card}
+              onClick={() => handleCardClick(menu.key)}
+            >
+              {t(`${menu.description}`)}
+            </Card>
+          ))}
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

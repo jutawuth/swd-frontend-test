@@ -1,0 +1,19 @@
+{
+  "menus": [
+    {
+      "key": "layout-style",
+      "title": "แบบทดสอบที่ 1",
+      "description": "การจัดการหน้าเว็บ"
+    },
+    {
+      "key": "connect-api",
+      "title": "แบบทดสอบที่ 2",
+      "description": "การเชื่อมต่อ API"
+    },
+    {
+      "key": "form-table",
+      "title": "แบบทดสอบที่ 3",
+      "description": "การจัดการฟอร์ม"
+    }
+  ]
+}
