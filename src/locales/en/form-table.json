@@ -42,7 +42,7 @@
     "prev": "PREV",
     "next": "NEXT",
     "selectAll": "Select All",
-    "deleteSelected": "Delete Selected",
+    "deleteSelected": "Delete",
     "edit": "Edit",
     "delete": "Delete",
     "manage": "MANAGE"
