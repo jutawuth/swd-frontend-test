@@ -1,4 +1,7 @@
 {
   "english": "English",
-  "thai": "Thai"
+  "thai": "Thai",
+  "nav": {
+    "home": "Home"
+  }
 }

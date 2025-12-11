@@ -2,6 +2,7 @@
 
 import type { InputRef } from 'antd';
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
+import PhoneInput from 'antd-phone-input';
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { useDict } from '../DictContext';
@@ -32,10 +33,11 @@ export default function UserForm() {
     value: label,
   }));
 
-  const mobilePhoneOptions = Object.entries(dict.form.mobilePhoneOptions).map(([value, label]) => ({
-    label,
-    value: label,
-  }));
+  const flagMap: Record<string, string> = { '+66': '🇹🇭', '+1': '🇺🇸', '+33': '🇫🇷' };
+  const mobilePhoneOptions = Object.entries(dict.form.mobilePhoneOptions).map(([value, label]) => {
+    const flag = flagMap[value] ?? '';
+    return { label: `${flag ? `${flag} ` : ''}${label}`, value: value };
+  });
 
   const initialValues = {};
 
@@ -49,12 +51,6 @@ export default function UserForm() {
   useEffect(() => {
     if (editing) {
       const citizenParts = editing.citizenId ? editing.citizenId.split('-') : [];
-      const mobilePrefix = mobilePhoneOptions.find((opt) =>
-        editing.mobilePhone.startsWith(opt.label)
-      );
-      const mobileNumber = mobilePrefix
-        ? editing.mobilePhone.slice(mobilePrefix.label.length)
-        : editing.mobilePhone;
 
       form.setFieldsValue({
         title: editing.title,
@@ -64,20 +60,26 @@ export default function UserForm() {
         nationality: editing.nationality,
         citizenId: citizenParts,
         gender: editing.gender,
-        mobilePhone: [mobilePrefix?.label ?? '', mobileNumber],
+        mobilePhone: editing.mobilePhone ?? '',
         passportNo: editing.passportNo,
         expectedSalary: editing.expectedSalary,
       });
     } else {
       form.resetFields();
     }
-  }, [editing, form, mobilePhoneOptions]);
+  }, [editing, form]);
 
   const onFinish = (fieldsValue: any) => {
     const citizenArray = (fieldsValue.citizenId as string[] | undefined) ?? [];
     const citizenId = citizenArray.join('-');
-    const mobileArray = (fieldsValue.mobilePhone as string[] | undefined) ?? [];
-    const mobilePhone = mobileArray.join('');
+    const phoneVal = fieldsValue.mobilePhone;
+    let mobilePhone = '';
+    if (typeof phoneVal === 'string') {
+      mobilePhone = phoneVal;
+    } else if (phoneVal && typeof phoneVal === 'object') {
+      const cc = phoneVal.countryCode ? `+${phoneVal.countryCode}` : '';
+      mobilePhone = `${cc}${phoneVal.areaCode ?? ''}${phoneVal.phoneNumber ?? ''}`;
+    }
 
     const values = {
       title: fieldsValue.title,
@@ -250,16 +252,21 @@ export default function UserForm() {
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item
                 name={['mobilePhone', 0]}
                 label={dict.form.mobilePhone}
                 rules={[{ required: true, message: required.mobilePhone }]}
               >
-                <Select placeholder={dict.form.mobilePhone} options={mobilePhoneOptions} />
+                <Select
+                  placeholder={dict.form.mobilePhone}
+                  options={mobilePhoneOptions}
+                  showSearch
+                  optionFilterProp="label"
+                />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item name={['mobilePhone', 1]} label="-" colon={false}>
                 {/* <Input maxLength={10} />
                  */}

@@ -9,3 +9,11 @@
   width: 1200px;
   margin: 0 auto;
 }
+
+.nav {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  z-index: 1000;
+  display: inline-flex;
+}
