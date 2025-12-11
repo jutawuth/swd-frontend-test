@@ -22,11 +22,16 @@ export default function UserTable() {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [mounted, setMounted] = useState(false);
 
   const pagedData = useMemo(
     () => data.slice((page - 1) * pageSize, page * pageSize),
     [data, page, pageSize]
   );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const maxPage = Math.max(1, Math.ceil(data.length / pageSize));
@@ -115,32 +120,34 @@ export default function UserTable() {
             </Button>
           </Form.Item>
         </Form>
-        <Pagination
-          current={page}
-          pageSize={pageSize}
-          total={data.length}
-          itemRender={(pageNumber, type, originalElement) => {
-            if (type === 'prev') {
-              return (
-                <Button size="small" type="text">
-                  {dict.table.prev}
-                </Button>
-              );
-            }
-            if (type === 'next') {
-              return (
-                <Button size="small" type="text">
-                  {dict.table.next}
-                </Button>
-              );
-            }
-            return originalElement;
-          }}
-          onChange={(p, size) => {
-            setPage(p);
-            setPageSize(size);
-          }}
-        />
+        {mounted && (
+          <Pagination
+            current={page}
+            pageSize={pageSize}
+            total={data.length}
+            itemRender={(pageNumber, type, originalElement) => {
+              if (type === 'prev') {
+                return (
+                  <Button size="small" type="text">
+                    {dict.table.prev}
+                  </Button>
+                );
+              }
+              if (type === 'next') {
+                return (
+                  <Button size="small" type="text">
+                    {dict.table.next}
+                  </Button>
+                );
+              }
+              return originalElement;
+            }}
+            onChange={(p, size) => {
+              setPage(p);
+              setPageSize(size ?? pageSize);
+            }}
+          />
+        )}
       </Row>
 
       <Table
