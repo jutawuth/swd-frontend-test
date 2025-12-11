@@ -1,0 +1,11 @@
+@use '../../styles/variables.module.scss' as variables;
+
+.page {
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}

@@ -1,0 +1,14 @@
+@use '../../styles/variables.module.scss' as variables;
+
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.formPanal {
+  border: 2px solid black;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  max-width: 768px;
+}

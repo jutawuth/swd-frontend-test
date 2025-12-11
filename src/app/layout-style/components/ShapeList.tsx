@@ -1,13 +1,13 @@
 'use client';
 
 import { Col, Row } from 'antd';
-import { useShapeDict } from '../ShapeDictContext';
+import { useDict } from '../DictContext';
 import styles from '../styles/page.module.scss';
 import shape from '../styles/shape.module.scss';
 import { IShapeList } from './interface/ShapeList.interface';
 
 export default function ShapeList({ data, onShuffleClick }: IShapeList) {
-  useShapeDict(); // consume to keep consistent access; future copy can use dict values
+  useDict(); // consume to keep consistent access; future copy can use dict values
 
   const half = Math.ceil(data.length / 2);
 

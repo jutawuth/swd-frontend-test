@@ -4,7 +4,7 @@ import getDict from '@/lib/getDict';
 import { LSDict } from './layout-style.type';
 
 import ShapeSection from './components/ShapeSection';
-import { ShapeDictProvider } from './ShapeDictContext';
+import { DictProvider } from './DictContext';
 import styles from './styles/page.module.scss';
 
 export default async function Home() {
@@ -15,9 +15,9 @@ export default async function Home() {
     <div className={styles.page}>
       <h1>{lsDict.title}</h1>
 
-      <ShapeDictProvider dict={lsDict}>
+      <DictProvider dict={lsDict}>
         <ShapeSection />
-      </ShapeDictProvider>
+      </DictProvider>
     </div>
   );
 }

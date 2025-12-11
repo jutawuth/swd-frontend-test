@@ -1,0 +1,10 @@
+@use '../../styles/variables.module.scss' as variables;
+
+.tablePanal {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+}

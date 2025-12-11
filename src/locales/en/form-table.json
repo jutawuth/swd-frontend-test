@@ -1,0 +1,56 @@
+{
+  "title": "Form & Table",
+  "form": {
+    "title": "Title",
+    "titleOptions": {
+      "mr": "Mr.",
+      "mrs": "Mrs.",
+      "ms": "Ms."
+    },
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "birthday": "Birthday",
+    "nationality": "Nationality",
+    "nationalityOptions": {
+      "thai": "Thai",
+      "french": "French",
+      "american": "American"
+    },
+    "cityzenId": "CityzenId",
+    "gender": "Gender",
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female",
+      "unisex": "Unisex"
+    },
+    "mobilePhone": "Mobile Phone",
+    "mobilePhoneOptions": {
+      "thai": "+66",
+      "us": "+1",
+      "fr": "+33"
+    },
+    "passportNo": "Passport No",
+    "expectedSalary": "Expected Salary",
+    "buttons": {
+      "reset": "Reset",
+      "submit": "Submit"
+    }
+  },
+  "table": {
+    "prev": "PREV",
+    "next": "NEXT"
+  },
+  "formValidation": {
+    "required": {
+      "title": "Please select title!",
+      "firstname": "Please select firstname!",
+      "lastname": "Please select lastname!",
+      "birthday": "Please select birthday!",
+      "cityzenId": "Please select cityzenId!",
+      "gender": "Please select gender!",
+      "mobilePhone": "Please select mobile phone!",
+      "passportNo": "Please select passport no!",
+      "expectedSalary": "Please select expected salary!"
+    }
+  }
+}

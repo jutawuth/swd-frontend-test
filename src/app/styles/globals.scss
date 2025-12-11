@@ -2,6 +2,9 @@
 
 body {
   background: linear-gradient(225deg, variables.$primaryColor, variables.$secondaryColor);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .ant-card-hoverable {

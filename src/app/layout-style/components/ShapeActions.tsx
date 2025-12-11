@@ -1,13 +1,13 @@
 'use client';
 
 import { Col, Row } from 'antd';
-import { useShapeDict } from '../ShapeDictContext';
+import { useDict } from '../DictContext';
 import styles from '../styles/page.module.scss';
 import shape from '../styles/shape.module.scss';
 import { IShapeActions } from './interface/ShapeActions.interface';
 
 export default function ShapeActions({ onSlideClick, onSwapClick }: IShapeActions) {
-  const dict = useShapeDict();
+  const dict = useDict();
 
   return (
     <Row justify="center">

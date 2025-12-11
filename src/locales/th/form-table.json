@@ -1,0 +1,56 @@
+{
+  "title": "การจัดการฟอร์ม",
+  "form": {
+    "title": "คำนำหน้า",
+    "titleOptions": {
+      "mr": "นาย",
+      "mrs": "นาง",
+      "ms": "นางสาว"
+    },
+    "firstname": "ชื่อจริง",
+    "lastname": "นามสกุล",
+    "birthday": "วันเกิด",
+    "nationality": "สัญชาติ",
+    "nationalityOptions": {
+      "thai": "ไทย",
+      "french": "ฝรั่งเศส",
+      "american": "อเมริกัน"
+    },
+    "cityzenId": "เลขบัตรประชาชน",
+    "gender": "เพศ",
+    "genderOptions": {
+      "male": "ผู้ชาย",
+      "female": "ผู้หญิง",
+      "unisex": "ไม่ระบุ"
+    },
+    "mobilePhone": "หมายเลขโทรศัพท์มือถือ",
+    "mobilePhoneOptions": {
+      "thai": "+66",
+      "us": "+1",
+      "fr": "+33"
+    },
+    "passportNo": "หนังสือเดินทาง",
+    "expectedSalary": "เงินเดือนที่คาดหวัง",
+    "buttons": {
+      "reset": "ล้างข้อมูล",
+      "submit": "ส่งข้อมูล"
+    }
+  },
+  "table": {
+    "prev": "ก่อนหน้า",
+    "next": "ถัดไป"
+  },
+  "formValidation": {
+    "required": {
+      "title": "กรุณาเลือกคำนำหน้า!",
+      "firstname": "กรุณากรอกชื่อจริง!",
+      "lastname": "กรุณากรอกนามสกุล!",
+      "birthday": "กรุณาเลือกวันเกิด!",
+      "cityzenId": "กรุณากรอกเลขบัตรประชาชน!",
+      "gender": "กรุณาเลือกเพศ!",
+      "mobilePhone": "กรุณาเลือกหมายเลขโทรศัพท์มือถือ!",
+      "passportNo": "กรุณากรอกเลขหนังสือเดินทาง!",
+      "expectedSalary": "กรุณากรอกเงินเดือนที่คาดหวัง!"
+    }
+  }
+}
