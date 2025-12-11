@@ -43,6 +43,11 @@ export type FTDict = {
   table: {
     prev: string;
     next: string;
+    selectAll: string;
+    deleteSelected: string;
+    edit: string;
+    delete: string;
+    manage: string;
   };
   formValidation: {
     required: {

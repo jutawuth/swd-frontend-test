@@ -40,7 +40,12 @@
   },
   "table": {
     "prev": "PREV",
-    "next": "NEXT"
+    "next": "NEXT",
+    "selectAll": "Select All",
+    "deleteSelected": "Delete Selected",
+    "edit": "Edit",
+    "delete": "Delete",
+    "manage": "MANAGE"
   },
   "formValidation": {
     "required": {

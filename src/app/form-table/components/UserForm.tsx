@@ -60,15 +60,23 @@ export default function UserForm() {
     }
   };
 
+  const splitMobile = (phone: string | undefined): [string, string] => {
+    if (!phone) return ['', ''];
+    const matchedPrefix = mobilePhoneOptions.find((opt) => phone.startsWith(opt.value));
+    if (matchedPrefix) {
+      return [matchedPrefix.value, phone.slice(matchedPrefix.value.length)];
+    }
+    const plusMatch = phone.match(/^(\+\d{1,3})(.*)$/);
+    if (plusMatch) {
+      return [plusMatch[1], plusMatch[2]];
+    }
+    return ['', phone];
+  };
+
   useEffect(() => {
     if (editing) {
       const citizenParts = editing.citizenId ? editing.citizenId.split('-') : [];
-      const mobilePrefix = mobilePhoneOptions.find((opt) =>
-        editing.mobilePhone?.startsWith(opt.value)
-      );
-      const mobileNumber = mobilePrefix
-        ? editing.mobilePhone.slice(mobilePrefix.value.length)
-        : editing.mobilePhone;
+      const [mobilePrefix, mobileNumber] = splitMobile(editing.mobilePhone);
 
       form.setFieldsValue({
         title: editing.title,
@@ -78,7 +86,7 @@ export default function UserForm() {
         nationality: editing.nationality,
         citizenId: citizenParts,
         gender: editing.gender,
-        mobilePhone: [mobilePrefix?.value ?? '', mobileNumber],
+        mobilePhone: [mobilePrefix, mobileNumber],
         passportNo: editing.passportNo,
         expectedSalary: editing.expectedSalary,
       });
@@ -114,6 +122,7 @@ export default function UserForm() {
     }
 
     form.resetFields();
+    alert('Save Success');
   };
 
   return (
@@ -264,7 +273,7 @@ export default function UserForm() {
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item
                 name={['mobilePhone', 0]}
                 label={dict.form.mobilePhone}

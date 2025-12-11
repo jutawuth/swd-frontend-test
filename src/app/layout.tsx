@@ -4,9 +4,11 @@ import localFont from 'next/font/local';
 import AntdRegistry from '@/lib/AntdRegistry';
 
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Loading from '@/components/Loading';
+
+import 'antd/dist/reset.css';
 
 import '@/app/styles/globals.scss';
-import 'antd/dist/reset.css';
 import styles from './styles/page.module.scss';
 
 const geistSans = localFont({
@@ -35,10 +37,12 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <main>
           <AntdRegistry>
-            <div className={styles.languageSwitcher}>
-              <LanguageSwitcher />
-            </div>
-            {children}
+            <Loading>
+              <div className={styles.languageSwitcher}>
+                <LanguageSwitcher />
+              </div>
+              {children}
+            </Loading>
           </AntdRegistry>
         </main>
       </body>

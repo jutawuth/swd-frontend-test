@@ -1,6 +1,11 @@
-import { Button } from 'antd';
-import Link from 'next/link';
-import styles from './styles/page.module.scss';
+import type { Metadata } from 'next';
+
+import FormTableNav from './components/FormTableNav';
+
+export const metadata: Metadata = {
+  title: 'Form & Table',
+  description: 'Form & Table Demo',
+};
 
 export default function FormTableLayout({
   children,
@@ -9,11 +14,7 @@ export default function FormTableLayout({
 }>) {
   return (
     <div>
-      <div className={styles.nav}>
-        <Link href={'/'}>
-          <Button>Home</Button>
-        </Link>
-      </div>
+      <FormTableNav />
       {children}
     </div>
   );

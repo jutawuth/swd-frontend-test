@@ -40,7 +40,12 @@
   },
   "table": {
     "prev": "ก่อนหน้า",
-    "next": "ถัดไป"
+    "next": "ถัดไป",
+    "selectAll": "เลือกทั้งหมด",
+    "deleteSelected": "ลบข้อมูล",
+    "edit": "แก้ไขข้อมูล",
+    "delete": "ลบข้อมูล",
+    "manage": "จัดการ"
   },
   "formValidation": {
     "required": {

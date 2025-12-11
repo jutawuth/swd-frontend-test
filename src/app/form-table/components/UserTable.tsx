@@ -56,7 +56,12 @@ export default function UserTable() {
           return dict.form.genderOptions?.[key] ?? value;
         },
       },
-      { title: dict.form.mobilePhone, dataIndex: 'mobilePhone', key: 'mobilePhone' },
+      {
+        title: dict.form.mobilePhone,
+        key: 'mobilePhone',
+        render: (_, record) =>
+          record.mobilePhone || `${record.mobilePrefix ?? ''}${record.mobileNumber ?? ''}`,
+      },
       {
         title: dict.form.nationality,
         dataIndex: 'nationality',
@@ -67,16 +72,23 @@ export default function UserTable() {
         },
       },
       {
-        title: dict.form.manage,
+        title: dict.table.manage,
         key: 'action',
-        width: '180px',
+        width: '200px',
         render: (_, record) => (
           <Space>
             <Button size="small" type="text" onClick={() => dispatch(setEditing(record))}>
-              EDIT
+              {dict.table.edit ?? 'Edit'}
             </Button>
-            <Button size="small" type="text" onClick={() => dispatch(deleteUser(record.key))}>
-              DELETE
+            <Button
+              size="small"
+              type="text"
+              onClick={() => {
+                dispatch(deleteUser(record.key));
+                alert('Delete Success');
+              }}
+            >
+              {dict.table.delete ?? 'Delete'}
             </Button>
           </Space>
         ),
@@ -92,6 +104,7 @@ export default function UserTable() {
   const handleDeleteAll = () => {
     dispatch(deleteMany(selectedRowKeys as string[]));
     setSelectedRowKeys([]);
+    alert('Delete Success');
   };
 
   return (
@@ -111,12 +124,12 @@ export default function UserTable() {
                 }
               }}
             >
-              Select All
+              {dict.table.selectAll}
             </Checkbox>
           </Form.Item>
           <Form.Item>
             <Button onClick={handleDeleteAll} disabled={selectedRowKeys.length === 0}>
-              Delete
+              {dict.table.deleteSelected}
             </Button>
           </Form.Item>
         </Form>
