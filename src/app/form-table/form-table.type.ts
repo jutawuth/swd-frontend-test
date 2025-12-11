@@ -33,6 +33,8 @@ export type FTDict = {
     };
     passportNo: string;
     expectedSalary: string;
+    name: string;
+    manage: string;
     buttons: {
       reset: string;
       submit: string;

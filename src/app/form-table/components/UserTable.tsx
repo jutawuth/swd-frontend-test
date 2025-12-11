@@ -8,8 +8,8 @@ import {
   deleteMany,
   deleteUser,
   setEditing,
-  useAppDispatch,
-  useAppSelector,
+  useUserDispatch,
+  useUserSelector,
   type UserRecord,
 } from '../store';
 
@@ -17,8 +17,8 @@ import styles from '../styles/user-table.module.scss';
 
 export default function UserTable() {
   const dict = useDict();
-  const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.formTable.users);
+  const dispatch = useUserDispatch();
+  const data = useUserSelector((state) => state.formTable.users);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -40,23 +40,29 @@ export default function UserTable() {
       {
         title: 'Name',
         key: 'name',
-        render: (_, record) => `${record.title} ${record.firstname} ${record.lastname}`,
+        render: (_, record) => `${record.firstname} ${record.lastname}`,
       },
       {
-        title: 'Gender',
+        title: dict.form.gender,
         dataIndex: 'gender',
         key: 'gender',
-        render: (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : ''),
+        render: (value: string) => {
+          const key = value?.toLowerCase() as keyof typeof dict.form.genderOptions;
+          return dict.form.genderOptions?.[key] ?? value;
+        },
       },
-      { title: 'Mobile Phone', dataIndex: 'mobilePhone', key: 'mobilePhone' },
+      { title: dict.form.mobilePhone, dataIndex: 'mobilePhone', key: 'mobilePhone' },
       {
-        title: 'Nationality',
+        title: dict.form.nationality,
         dataIndex: 'nationality',
         key: 'nationality',
-        render: (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : ''),
+        render: (value: string) => {
+          const key = value?.toLowerCase() as keyof typeof dict.form.nationalityOptions;
+          return dict.form.nationalityOptions?.[key] ?? value;
+        },
       },
       {
-        title: 'MANAGE',
+        title: dict.form.manage,
         key: 'action',
         width: '180px',
         render: (_, record) => (
@@ -71,7 +77,7 @@ export default function UserTable() {
         ),
       },
     ],
-    [dispatch]
+    [dispatch, dict]
   );
 
   const handleSelectChange = (newKeys: React.Key[]) => {
@@ -105,7 +111,7 @@ export default function UserTable() {
           </Form.Item>
           <Form.Item>
             <Button onClick={handleDeleteAll} disabled={selectedRowKeys.length === 0}>
-              Delete Selected
+              Delete
             </Button>
           </Form.Item>
         </Form>

@@ -1,10 +1,11 @@
 'use client';
 
 import type { InputRef } from 'antd';
-import { Button, Col, DatePicker, Form, Input, InputNumber, Radio, Row, Select } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
 import dayjs from 'dayjs';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDict } from '../DictContext';
+import { addUser, setEditing, updateUser, useUserDispatch, useUserSelector } from '../store';
 import styles from '../styles/user-form.module.scss';
 
 export default function UserForm() {
@@ -13,18 +14,8 @@ export default function UserForm() {
 
   const [form] = Form.useForm();
   const citizenRefs = useRef<Array<InputRef | null>>([]);
-  const sampleData = {
-    birthday: '2025-12-10',
-    citizenId: '1-2213-44234-23-4',
-    expectedSalary: 234234,
-    firstname: 'qweqw',
-    gender: 'female',
-    lastname: 'rerwe',
-    mobilePhone: '+663124234324',
-    nationality: 'thai',
-    passportNo: '3242342343',
-    title: 'mrs',
-  };
+  const dispatch = useUserDispatch();
+  const editing = useUserSelector((state) => state.formTable.editing);
 
   const titleOptions = Object.entries(dict.form.titleOptions).map(([value, label]) => ({
     label,
@@ -55,29 +46,32 @@ export default function UserForm() {
     }
   };
 
-  const setFormFromData = (data: typeof sampleData) => {
-    const citizenParts = data.citizenId.split('-');
-    const mobilePrefix = mobilePhoneOptions.find((opt) => data.mobilePhone.startsWith(opt.label));
-    const mobileNumber = mobilePrefix
-      ? data.mobilePhone.slice(mobilePrefix.label.length)
-      : data.mobilePhone;
+  useEffect(() => {
+    if (editing) {
+      const citizenParts = editing.citizenId ? editing.citizenId.split('-') : [];
+      const mobilePrefix = mobilePhoneOptions.find((opt) =>
+        editing.mobilePhone.startsWith(opt.label)
+      );
+      const mobileNumber = mobilePrefix
+        ? editing.mobilePhone.slice(mobilePrefix.label.length)
+        : editing.mobilePhone;
 
-    console.log('mobilePrefix: ', mobilePrefix);
-    console.log('mobileNumber: ', mobileNumber);
-
-    form.setFieldsValue({
-      title: data.title,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      birthday: dayjs(data.birthday),
-      nationality: data.nationality,
-      citizenId: citizenParts,
-      gender: data.gender,
-      mobilePhone: [mobilePrefix?.label ?? '', mobileNumber],
-      passportNo: data.passportNo,
-      expectedSalary: data.expectedSalary,
-    });
-  };
+      form.setFieldsValue({
+        title: editing.title,
+        firstname: editing.firstname,
+        lastname: editing.lastname,
+        birthday: editing.birthday ? dayjs(editing.birthday) : undefined,
+        nationality: editing.nationality,
+        citizenId: citizenParts,
+        gender: editing.gender,
+        mobilePhone: [mobilePrefix?.label ?? '', mobileNumber],
+        passportNo: editing.passportNo,
+        expectedSalary: editing.expectedSalary,
+      });
+    } else {
+      form.resetFields();
+    }
+  }, [editing, form, mobilePhoneOptions]);
 
   const onFinish = (fieldsValue: any) => {
     const citizenArray = (fieldsValue.citizenId as string[] | undefined) ?? [];
@@ -86,27 +80,39 @@ export default function UserForm() {
     const mobilePhone = mobileArray.join('');
 
     const values = {
-      ...fieldsValue,
-      birthday: fieldsValue['birthday']?.format?.('YYYY-MM-DD'),
+      title: fieldsValue.title,
+      firstname: fieldsValue.firstname,
+      lastname: fieldsValue.lastname,
+      birthday: fieldsValue['birthday']?.format?.('YYYY-MM-DD') ?? '',
+      nationality: fieldsValue.nationality,
       citizenId,
+      gender: fieldsValue.gender,
       mobilePhone,
+      passportNo: fieldsValue.passportNo,
+      expectedSalary: fieldsValue.expectedSalary,
     };
-    console.log('Raw form values: ', values);
+
+    if (editing) {
+      dispatch(updateUser({ ...values, key: editing.key }));
+      dispatch(setEditing(null));
+    } else {
+      dispatch(addUser(values));
+    }
+
+    form.resetFields();
   };
 
   return (
     <div className={styles.form}>
       <div className={styles.formPanal}>
-        <Button
-          onClick={() => {
-            setFormFromData(sampleData);
-          }}
+        <Form
+          form={form}
+          onFinish={onFinish}
+          onReset={() => dispatch(setEditing(null))}
+          initialValues={initialValues}
         >
-          Set Form
-        </Button>
-        <Form form={form} onFinish={onFinish} initialValues={initialValues}>
           <Row gutter={[16, 16]}>
-            <Col span={4}>
+            <Col span={5}>
               <Form.Item
                 name="title"
                 label={dict.form.title}
@@ -115,7 +121,7 @@ export default function UserForm() {
                 <Select placeholder={dict.form.title} options={titleOptions} />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={9}>
               <Form.Item
                 name="firstname"
                 label={dict.form.firstname}
@@ -142,7 +148,7 @@ export default function UserForm() {
                 label={dict.form.birthday}
                 rules={[{ required: true, message: required.birthday }]}
               >
-                <DatePicker placeholder={dict.form.birthday} />
+                <DatePicker placeholder={dict.form.birthday} style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -157,7 +163,7 @@ export default function UserForm() {
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col span={4}>
+            <Col span={5}>
               <Form.Item name={['citizenId', 0]} label={dict.form.cityzenId}>
                 <Input
                   maxLength={1}
@@ -257,18 +263,14 @@ export default function UserForm() {
               <Form.Item name={['mobilePhone', 1]} label="-" colon={false}>
                 {/* <Input maxLength={10} />
                  */}
-                <InputNumber maxLength={10} style={{ width: '100%' }} />
+                <Input inputMode="numeric" pattern="[0-9]*" maxLength={10} />
               </Form.Item>
             </Col>
           </Row>
 
           <Row gutter={[16, 16]}>
             <Col span={12}>
-              <Form.Item
-                name="passportNo"
-                label={dict.form.passportNo}
-                rules={[{ required: true, message: required.passportNo, whitespace: true }]}
-              >
+              <Form.Item name="passportNo" label={dict.form.passportNo}>
                 <Input maxLength={10} />
               </Form.Item>
             </Col>
@@ -291,7 +293,7 @@ export default function UserForm() {
                   },
                 ]}
               >
-                <InputNumber style={{ width: '100%' }} min={0} />
+                <Input inputMode="numeric" pattern="[0-9]*" min={0} />
               </Form.Item>
             </Col>
             <Col span={12}>

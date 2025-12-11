@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 
 import getDict from '@/lib/getDict';
 
+import FormTableStoreProvider from './FormTableStoreProvider';
 import UserForm from './components/UserForm';
 import UserTable from './components/UserTable';
 import { DictProvider } from './DictContext';
@@ -17,11 +18,13 @@ export default async function Home() {
       <h1>{ftDict.title}</h1>
 
       <DictProvider dict={ftDict}>
-        <div className={styles.container}>
-          <UserForm />
-          <br />
-          <UserTable />
-        </div>
+        <FormTableStoreProvider>
+          <div className={styles.container}>
+            <UserForm />
+            <br />
+            <UserTable />
+          </div>
+        </FormTableStoreProvider>
       </DictProvider>
     </div>
   );

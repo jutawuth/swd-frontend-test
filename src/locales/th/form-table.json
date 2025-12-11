@@ -31,6 +31,8 @@
     },
     "passportNo": "หนังสือเดินทาง",
     "expectedSalary": "เงินเดือนที่คาดหวัง",
+    "name": "ชื่อ",
+    "manage": "จัดการ",
     "buttons": {
       "reset": "ล้างข้อมูล",
       "submit": "ส่งข้อมูล"

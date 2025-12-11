@@ -31,6 +31,8 @@
     },
     "passportNo": "Passport No",
     "expectedSalary": "Expected Salary",
+    "name": "Name",
+    "manage": "MANAGE",
     "buttons": {
       "reset": "Reset",
       "submit": "Submit"
