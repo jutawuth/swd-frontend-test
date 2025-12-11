@@ -3,7 +3,7 @@
 import type { InputRef } from 'antd';
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDict } from '../DictContext';
 import { addUser, setEditing, updateUser, useUserDispatch, useUserSelector } from '../store';
 import styles from '../styles/user-form.module.scss';
@@ -60,18 +60,21 @@ export default function UserForm() {
     }
   };
 
-  const splitMobile = (phone: string | undefined): [string, string] => {
-    if (!phone) return ['', ''];
-    const matchedPrefix = mobilePhoneOptions.find((opt) => phone.startsWith(opt.value));
-    if (matchedPrefix) {
-      return [matchedPrefix.value, phone.slice(matchedPrefix.value.length)];
-    }
-    const plusMatch = phone.match(/^(\+\d{1,3})(.*)$/);
-    if (plusMatch) {
-      return [plusMatch[1], plusMatch[2]];
-    }
-    return ['', phone];
-  };
+  const splitMobile = useCallback(
+    (phone: string | undefined): [string, string] => {
+      if (!phone) return ['', ''];
+      const matchedPrefix = mobilePhoneOptions.find((opt) => phone.startsWith(opt.value));
+      if (matchedPrefix) {
+        return [matchedPrefix.value, phone.slice(matchedPrefix.value.length)];
+      }
+      const plusMatch = phone.match(/^(\+\d{1,3})(.*)$/);
+      if (plusMatch) {
+        return [plusMatch[1], plusMatch[2]];
+      }
+      return ['', phone];
+    },
+    [mobilePhoneOptions]
+  );
 
   useEffect(() => {
     if (editing) {
@@ -93,7 +96,7 @@ export default function UserForm() {
     } else {
       form.resetFields();
     }
-  }, [editing, form, mobilePhoneOptions]);
+  }, [editing, form, splitMobile]);
 
   const onFinish = (fieldsValue: FormValues) => {
     const citizenArray = (fieldsValue.citizenId as string[] | undefined) ?? [];
