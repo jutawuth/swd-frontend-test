@@ -2,12 +2,24 @@
 
 import type { InputRef } from 'antd';
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
-import PhoneInput from 'antd-phone-input';
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { useDict } from '../DictContext';
 import { addUser, setEditing, updateUser, useUserDispatch, useUserSelector } from '../store';
 import styles from '../styles/user-form.module.scss';
+
+type FormValues = {
+  title: string;
+  firstname: string;
+  lastname: string;
+  birthday?: dayjs.Dayjs;
+  nationality: string;
+  citizenId?: (string | undefined)[];
+  gender: string;
+  mobilePhone?: (string | undefined)[];
+  passportNo?: string;
+  expectedSalary?: number;
+};
 
 export default function UserForm() {
   const dict = useDict();
@@ -28,15 +40,15 @@ export default function UserForm() {
     value,
   }));
 
-  const nationalityOptions = Object.entries(dict.form.nationalityOptions).map(([value, label]) => ({
+  const nationalityOptions = Object.entries(dict.form.nationalityOptions).map(([, label]) => ({
     label,
     value: label,
   }));
 
   const flagMap: Record<string, string> = { '+66': '🇹🇭', '+1': '🇺🇸', '+33': '🇫🇷' };
-  const mobilePhoneOptions = Object.entries(dict.form.mobilePhoneOptions).map(([value, label]) => {
-    const flag = flagMap[value] ?? '';
-    return { label: `${flag ? `${flag} ` : ''}${label}`, value: value };
+  const mobilePhoneOptions = Object.entries(dict.form.mobilePhoneOptions).map(([code, label]) => {
+    const flag = flagMap[code] ?? '';
+    return { label: `${flag ? `${flag} ` : ''}${label}`, value: code };
   });
 
   const initialValues = {};
@@ -51,6 +63,12 @@ export default function UserForm() {
   useEffect(() => {
     if (editing) {
       const citizenParts = editing.citizenId ? editing.citizenId.split('-') : [];
+      const mobilePrefix = mobilePhoneOptions.find((opt) =>
+        editing.mobilePhone?.startsWith(opt.value)
+      );
+      const mobileNumber = mobilePrefix
+        ? editing.mobilePhone.slice(mobilePrefix.value.length)
+        : editing.mobilePhone;
 
       form.setFieldsValue({
         title: editing.title,
@@ -60,26 +78,20 @@ export default function UserForm() {
         nationality: editing.nationality,
         citizenId: citizenParts,
         gender: editing.gender,
-        mobilePhone: editing.mobilePhone ?? '',
+        mobilePhone: [mobilePrefix?.value ?? '', mobileNumber],
         passportNo: editing.passportNo,
         expectedSalary: editing.expectedSalary,
       });
     } else {
       form.resetFields();
     }
-  }, [editing, form]);
+  }, [editing, form, mobilePhoneOptions]);
 
-  const onFinish = (fieldsValue: any) => {
+  const onFinish = (fieldsValue: FormValues) => {
     const citizenArray = (fieldsValue.citizenId as string[] | undefined) ?? [];
     const citizenId = citizenArray.join('-');
     const phoneVal = fieldsValue.mobilePhone;
-    let mobilePhone = '';
-    if (typeof phoneVal === 'string') {
-      mobilePhone = phoneVal;
-    } else if (phoneVal && typeof phoneVal === 'object') {
-      const cc = phoneVal.countryCode ? `+${phoneVal.countryCode}` : '';
-      mobilePhone = `${cc}${phoneVal.areaCode ?? ''}${phoneVal.phoneNumber ?? ''}`;
-    }
+    const mobilePhone = Array.isArray(phoneVal) ? phoneVal.filter(Boolean).join('') : '';
 
     const values = {
       title: fieldsValue.title,
@@ -90,8 +102,8 @@ export default function UserForm() {
       citizenId,
       gender: fieldsValue.gender,
       mobilePhone,
-      passportNo: fieldsValue.passportNo,
-      expectedSalary: fieldsValue.expectedSalary,
+      passportNo: fieldsValue.passportNo ?? '',
+      expectedSalary: fieldsValue.expectedSalary ?? 0,
     };
 
     if (editing) {
@@ -268,8 +280,6 @@ export default function UserForm() {
             </Col>
             <Col span={12}>
               <Form.Item name={['mobilePhone', 1]} label="-" colon={false}>
-                {/* <Input maxLength={10} />
-                 */}
                 <Input inputMode="numeric" pattern="[0-9]*" maxLength={10} />
               </Form.Item>
             </Col>

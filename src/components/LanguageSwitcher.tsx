@@ -38,7 +38,7 @@ const LanguageSwitcher = ({ className }: Props) => {
 
   return (
     <Select
-      className={styles.select}
+      className={`${styles.select} ${className ?? ''}`}
       value={i18n.language as 'en' | 'th'}
       onChange={handleChange}
       options={[

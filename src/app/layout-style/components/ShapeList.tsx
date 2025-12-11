@@ -17,7 +17,7 @@ export default function ShapeList({ data, onShuffleClick }: IShapeList) {
   return (
     <>
       <Row justify="end">
-        {dataRow1.map((shapeItem, index) => {
+        {dataRow1.map((shapeItem) => {
           return (
             <Col span={6} key={shapeItem}>
               <div className={styles.card}>
@@ -32,7 +32,7 @@ export default function ShapeList({ data, onShuffleClick }: IShapeList) {
       </Row>
 
       <Row justify="center">
-        {dataRow2.map((shapeItem, index) => {
+        {dataRow2.map((shapeItem) => {
           return (
             <Col span={6} key={shapeItem}>
               <div className={styles.card}>
